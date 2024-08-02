@@ -5,6 +5,7 @@ const ulTarefas = document.querySelector('.app__section-task-list');
 const paragrafoDescricaoTarefa = document.querySelector('.app__section-active-task-description');
 
 const tarefas = JSON.parse(localStorage.getItem('tarefas')) || [];
+let tarefaSelecioanda = null;
 
 function atualizarTarefas () {
     localStorage.setItem('tarefas', JSON.stringify(tarefas));
@@ -49,6 +50,15 @@ function criarElementoTarefa(tarefa) {
     li.append(botao);
 
     li.onclick = () => {
+        document.querySelectorAll('.app__section-task-list-item-active').forEach(elemento => {
+            elemento.classList.remove('app__section-task-list-item-active');
+        })
+        if (tarefaSelecioanda === tarefa) {
+            paragrafoDescricaoTarefa.textContent = '';
+            tarefaSelecioanda = null;
+            return;
+        }
+        tarefaSelecioanda = tarefa;
         paragrafoDescricaoTarefa.textContent = tarefa.descricao;
         li.classList.add('app__section-task-list-item-active');
     }
